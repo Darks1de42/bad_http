@@ -4,7 +4,7 @@
 
 ## Description
 A simple python HTTP(S) server that supports CORS, Headers,  HTTP, HTTPS, and Uncomplicated Firewall (UFW).  
-Like a fancy alternative to "python -m SimpleHTTPServer 8000" when more options are needed.  
+Like a fancy alternative to "python -m http.server 8000" when more options are needed.  
 Useful for creating a quick PoC related to vulnerabilities such as CSRF, XSS, etc.
 
 ## Installation
