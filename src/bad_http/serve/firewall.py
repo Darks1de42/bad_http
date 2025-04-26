@@ -1,6 +1,6 @@
 # This file is part of bad_http.py
 
-from serve.pretty_colors import print_color
+from bad_http.serve.pretty_colors import print_color
 from subprocess import run
 
 # Firewall status

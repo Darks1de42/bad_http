@@ -25,12 +25,10 @@
 
 from os import chdir
 from pathlib import Path
-from serve.http_server import Server
-from serve.pretty_colors import print_color
+from bad_http.serve.http_server import Server
+from bad_http.serve.pretty_colors import print_color
 from sys import version_info
-import serve.args
-import serve.firewall
-import serve.handler
+from bad_http.serve import args as arguments, firewall, handler
 import signal
 
 
@@ -60,7 +58,7 @@ def main():
     # and cleans up the firewall rules
     def clean_up_ufw(port):
         print_color('Removing firewall rules.', 'i')
-        serve.firewall.ufw_rem(port)
+        firewall.ufw_rem(port)
 
     def signal_handler(signal, frame):
         # Print an extra line here so ^C isn't so ugly in output
@@ -73,7 +71,7 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     try:
-        args = serve.args.parse_args()
+        args = arguments.parse_args()
         # Setup listen address
         IP = args.ip
         # Setup listening ports
@@ -100,7 +98,7 @@ def main():
         headers = {}
         # Handler options
         if args.banner is not None:
-            serve.handler.http_handler_options(args.banner)
+            handler.http_handler_options(args.banner)
         # CORS
         cors_enabled = 0
         if args.cors_all:
@@ -109,14 +107,14 @@ def main():
         if args.cors_static:
             headers['Access-Control-Allow-Origin'] = args.cors_static
             cors_enabled += 1
-        serve.handler.HTTPHandler.cors_dynamic = False
+        handler.HTTPHandler.cors_dynamic = False
         if args.cors_dynamic:
             print_color('Setting Access-Control-Allow-Origin to dynamically ' \
                 'match a requesting origin is extremely dangerous.\nEspecially ' \
                 'when combined with \'Access-Control-Allow-Credentials\'' \
                 'and/or \'Access-Control-Allow-Headers\'', 'w')
             # This must be handled by the handler to get the origin header
-            serve.handler.HTTPHandler.cors_dynamic = True
+            handler.HTTPHandler.cors_dynamic = True
             cors_enabled += 1
         if cors_enabled > 1:
             print_color('There can only be one --cors-all, --cors-dynamic, or --cors-static', 'e')
@@ -150,14 +148,14 @@ def main():
                 print_color(f'Error: {str(e)}', 'e')
                 exit(1)
 
-        serve.handler.HTTPHandler.response_headers = headers
+        handler.HTTPHandler.response_headers = headers
 
         if args.web_root:
             chdir(args.web_root)
 
         # Add firewall rules if needed
         if args.ufw:
-            serve.firewall.ufw_add(port)
+            firewall.ufw_add(port)
             
         # Launch Server
         server = Server()

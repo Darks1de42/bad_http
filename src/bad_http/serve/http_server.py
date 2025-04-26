@@ -1,8 +1,8 @@
 # This file is part of bad_http.py
 
 from http.server import HTTPServer
-from serve.handler import HTTPHandler
-from serve.pretty_colors import print_color
+from bad_http.serve.handler import HTTPHandler
+from bad_http.serve.pretty_colors import print_color
 from ssl import PROTOCOL_TLS_SERVER
 from ssl import SSLContext
 from threading import Thread
