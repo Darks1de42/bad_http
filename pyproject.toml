@@ -1,8 +1,9 @@
 [project]
 name = "bad-http"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.3"
+description = 'A simple python HTTP(S) server that supports CORS, Headers, HTTP, HTTPS, and UFW. Like a fancy alternative to "python -m http.server 8000" when more options are needed. '
 readme = "README.md"
+license = {file = "LICENSE" }
 requires-python = ">=3.12"
 dependencies = []
 authors = [
